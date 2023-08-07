@@ -41,6 +41,47 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <!-- Sun Image View -->
+
+    <!-- Cloud Image View -->
+
+    <!-- Birds Image View -->
+
+    <ImageView
+        android:id="@+id/cloudImageView"
+        android:layout_width="150dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="132dp"
+        android:src="@drawable/cloud_1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/sunImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/sun3f"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/stopButton" />
+
+    <ImageView
+        android:id="@+id/birdsImageView"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/birds_2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cloudImageView" />
+
     <!-- Other animated elements (clouds, sun, birds) can be added here -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+

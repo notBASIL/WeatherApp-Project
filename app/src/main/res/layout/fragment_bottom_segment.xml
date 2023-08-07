@@ -9,7 +9,7 @@
         android:id="@+id/bottomDateTimeTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
+        android:layout_marginTop="16dp"
         android:text="Current Date and Time"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -20,12 +20,12 @@
         android:id="@+id/bottomTurningWheelImageView"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginTop="108dp"
+        android:layout_marginTop="16dp"
         android:src="@drawable/wheeloftime"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/bottomDateTimeTextView" />
 
     <!-- Other UI elements for seasonal images and animations can be added here -->
 

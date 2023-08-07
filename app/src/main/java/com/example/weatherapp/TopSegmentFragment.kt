@@ -1,25 +1,40 @@
 package com.example.weatherapp
 
-import android.animation.ArgbEvaluator
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.content.res.Resources
+import android.graphics.Path
 import android.media.MediaPlayer
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.PathInterpolator
 import android.widget.Button
+import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
+import java.text.SimpleDateFormat
+import java.util.*
 
 class TopSegmentFragment : Fragment() {
 
     private lateinit var startButton: Button
     private lateinit var stopButton: Button
+    private lateinit var sunImageView: View
+    private lateinit var cloudImageView: View
+    private lateinit var birdsImageView: View
 
-    private lateinit var backgroundColorAnimator: ObjectAnimator
+    private lateinit var sunAnimator: ObjectAnimator
+    private lateinit var cloudAnimator: ObjectAnimator
+    private lateinit var birdsAnimator: ObjectAnimator
     private lateinit var mediaPlayer: MediaPlayer
+
+    private lateinit var currentTimeHandler: Handler
+    private lateinit var currentTimeRunnable: Runnable
+
+    private lateinit var dateTimeTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -29,6 +44,9 @@ class TopSegmentFragment : Fragment() {
 
         startButton = view.findViewById(R.id.startButton)
         stopButton = view.findViewById(R.id.stopButton)
+        sunImageView = view.findViewById(R.id.sunImageView)
+        cloudImageView = view.findViewById(R.id.cloudImageView)
+        birdsImageView = view.findViewById(R.id.birdsImageView)
 
         startButton.setOnClickListener {
             startAnimations()
@@ -40,36 +58,46 @@ class TopSegmentFragment : Fragment() {
             stopMusic()
         }
 
+        currentTimeHandler = Handler()
+        currentTimeRunnable = object : Runnable {
+            override fun run() {
+                updateCurrentTime()
+                currentTimeHandler.postDelayed(this, 1000)
+            }
+        }
+        currentTimeHandler.post(currentTimeRunnable)
+
         return view
     }
 
     private fun startAnimations() {
-        val startColor = Resources.getSystem().getColor(android.R.color.holo_red_light, null)
-        val endColor = Resources.getSystem().getColor(android.R.color.holo_blue_light, null)
-
-        backgroundColorAnimator = ObjectAnimator.ofInt(
-            view?.findViewById(R.id.topLayout), // Replace with the actual ID of your fragment's root layout
-            "backgroundColor",
-            startColor, endColor
-        )
-        backgroundColorAnimator.setEvaluator(ArgbEvaluator())
-        backgroundColorAnimator.duration = 5000
-        backgroundColorAnimator.start()
+        // Animation code
+        // ...
     }
 
-
     private fun startMusic() {
-        mediaPlayer = MediaPlayer.create(context, R.raw.spring_song)
-        mediaPlayer.start()
+        // Start playing music
+        // ...
     }
 
     private fun stopAnimations() {
-        backgroundColorAnimator.cancel()
+        // Stop animation
+        // ...
     }
 
     private fun stopMusic() {
-        mediaPlayer.stop()
-        mediaPlayer.release()
+        // Stop music
+        // ...
+    }
+
+    private fun updateCurrentTime() {
+        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+        dateTimeTextView.text = currentTime
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        currentTimeHandler.removeCallbacks(currentTimeRunnable)
     }
 }
 
