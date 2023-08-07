@@ -3,20 +3,14 @@ package com.example.weatherapp
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
 import android.graphics.Path
-import android.media.MediaPlayer
 import android.os.Bundle
-import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.PathInterpolator
 import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
-import java.text.SimpleDateFormat
-import java.util.*
 
 class TopSegmentFragment : Fragment() {
 
@@ -29,12 +23,6 @@ class TopSegmentFragment : Fragment() {
     private lateinit var sunAnimator: ObjectAnimator
     private lateinit var cloudAnimator: ObjectAnimator
     private lateinit var birdsAnimator: ObjectAnimator
-    private lateinit var mediaPlayer: MediaPlayer
-
-    private lateinit var currentTimeHandler: Handler
-    private lateinit var currentTimeRunnable: Runnable
-
-    private lateinit var dateTimeTextView: TextView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,46 +46,55 @@ class TopSegmentFragment : Fragment() {
             stopMusic()
         }
 
-        currentTimeHandler = Handler()
-        currentTimeRunnable = object : Runnable {
-            override fun run() {
-                updateCurrentTime()
-                currentTimeHandler.postDelayed(this, 1000)
-            }
-        }
-        currentTimeHandler.post(currentTimeRunnable)
-
         return view
     }
 
     private fun startAnimations() {
-        // Animation code
-        // ...
+        // Animate sun and clouds
+        val screenWidth = resources.displayMetrics.widthPixels.toFloat()
+        val sunCloudPath = Path().apply {
+            moveTo(-sunImageView.width.toFloat(), sunImageView.y)
+            lineTo(screenWidth, sunImageView.y)
+        }
+        val sunCloudAnimator = ObjectAnimator.ofFloat(sunImageView, View.X, View.Y, sunCloudPath)
+        sunCloudAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
+        sunCloudAnimator.duration = 8000
+        sunCloudAnimator.repeatCount = ValueAnimator.INFINITE
+        sunCloudAnimator.start()
+
+        val cloudPath = Path().apply {
+            moveTo(screenWidth, cloudImageView.y)
+            lineTo(-cloudImageView.width.toFloat(), cloudImageView.y)
+        }
+        cloudAnimator = ObjectAnimator.ofFloat(cloudImageView, View.X, View.Y, cloudPath)
+        cloudAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
+        cloudAnimator.duration = 8000
+        cloudAnimator.repeatCount = ValueAnimator.INFINITE
+        cloudAnimator.start()
+
+        // Animate birds
+        birdsAnimator = ObjectAnimator.ofFloat(
+            birdsImageView, View.TRANSLATION_X,
+            -birdsImageView.width.toFloat(), screenWidth
+        )
+        birdsAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
+        birdsAnimator.duration = 8000
+        birdsAnimator.repeatCount = ValueAnimator.INFINITE
+        birdsAnimator.start()
     }
+
 
     private fun startMusic() {
         // Start playing music
-        // ...
     }
 
     private fun stopAnimations() {
-        // Stop animation
-        // ...
+        sunAnimator.cancel()
+        cloudAnimator.cancel()
+        birdsAnimator.cancel()
     }
 
     private fun stopMusic() {
-        // Stop music
-        // ...
-    }
-
-    private fun updateCurrentTime() {
-        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
-        dateTimeTextView.text = currentTime
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        currentTimeHandler.removeCallbacks(currentTimeRunnable)
+        // Stop playing music
     }
 }
-
