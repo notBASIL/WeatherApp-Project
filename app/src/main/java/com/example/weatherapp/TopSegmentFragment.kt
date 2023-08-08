@@ -2,6 +2,7 @@ package com.example.weatherapp
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.res.Resources
 import android.graphics.Path
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,10 +10,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.animation.PathInterpolator
 import android.widget.Button
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import com.example.weatherapp.R
 
 class TopSegmentFragment : Fragment() {
+
+    private lateinit var topLayout: ConstraintLayout
 
     private lateinit var startButton: Button
     private lateinit var stopButton: Button
@@ -29,6 +33,8 @@ class TopSegmentFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_top_segment, container, false)
+
+        topLayout = view.findViewById(R.id.topLayout)
 
         startButton = view.findViewById(R.id.startButton)
         stopButton = view.findViewById(R.id.stopButton)
@@ -50,17 +56,28 @@ class TopSegmentFragment : Fragment() {
     }
 
     private fun startAnimations() {
+        // Animate background color
+        val startColor = Resources.getSystem().getColor(android.R.color.holo_red_light, null)
+        val endColor = Resources.getSystem().getColor(android.R.color.holo_blue_light, null)
+
+        val backgroundColorAnimator = ObjectAnimator.ofArgb(topLayout, "backgroundColor", startColor, endColor)
+        backgroundColorAnimator.duration = 8000
+        backgroundColorAnimator.repeatCount = ValueAnimator.INFINITE
+        backgroundColorAnimator.reverse()
+        backgroundColorAnimator.start()
+
+
         // Animate sun and clouds
         val screenWidth = resources.displayMetrics.widthPixels.toFloat()
         val sunCloudPath = Path().apply {
             moveTo(-sunImageView.width.toFloat(), sunImageView.y)
             lineTo(screenWidth, sunImageView.y)
         }
-        val sunCloudAnimator = ObjectAnimator.ofFloat(sunImageView, View.X, View.Y, sunCloudPath)
-        sunCloudAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
-        sunCloudAnimator.duration = 8000
-        sunCloudAnimator.repeatCount = ValueAnimator.INFINITE
-        sunCloudAnimator.start()
+        sunAnimator = ObjectAnimator.ofFloat(sunImageView, View.X, View.Y, sunCloudPath)
+        sunAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
+        sunAnimator.duration = 8000
+        sunAnimator.repeatCount = ValueAnimator.INFINITE
+        sunAnimator.start()
 
         val cloudPath = Path().apply {
             moveTo(screenWidth, cloudImageView.y)
@@ -82,6 +99,7 @@ class TopSegmentFragment : Fragment() {
         birdsAnimator.repeatCount = ValueAnimator.INFINITE
         birdsAnimator.start()
     }
+
 
 
     private fun startMusic() {

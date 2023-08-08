@@ -5,6 +5,17 @@
     android:layout_height="match_parent"
     tools:context=".BottomSegmentFragment">
 
+    <ImageView
+        android:id="@+id/bottomCurrentImageView"
+        android:layout_width="407dp"
+        android:layout_height="107dp"
+        android:layout_marginTop="16dp"
+        android:scaleType="centerCrop"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomTurningWheelImageView" />
+
     <TextView
         android:id="@+id/bottomDateTimeTextView"
         android:layout_width="wrap_content"
