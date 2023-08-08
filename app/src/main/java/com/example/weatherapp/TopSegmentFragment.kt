@@ -12,7 +12,6 @@ import android.view.animation.PathInterpolator
 import android.widget.Button
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
-import com.example.weatherapp.R
 
 class TopSegmentFragment : Fragment() {
 
@@ -56,7 +55,7 @@ class TopSegmentFragment : Fragment() {
     }
 
     private fun startAnimations() {
-        // Animate background color
+        //background color
         val startColor = Resources.getSystem().getColor(android.R.color.holo_red_light, null)
         val endColor = Resources.getSystem().getColor(android.R.color.holo_blue_light, null)
 
@@ -67,7 +66,7 @@ class TopSegmentFragment : Fragment() {
         backgroundColorAnimator.start()
 
 
-        // Animate sun and clouds
+        //sun and clouds
         val screenWidth = resources.displayMetrics.widthPixels.toFloat()
         val sunCloudPath = Path().apply {
             moveTo(-sunImageView.width.toFloat(), sunImageView.y)
@@ -89,7 +88,7 @@ class TopSegmentFragment : Fragment() {
         cloudAnimator.repeatCount = ValueAnimator.INFINITE
         cloudAnimator.start()
 
-        // Animate birds
+        //birds
         birdsAnimator = ObjectAnimator.ofFloat(
             birdsImageView, View.TRANSLATION_X,
             -birdsImageView.width.toFloat(), screenWidth

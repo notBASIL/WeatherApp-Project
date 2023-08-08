@@ -1,7 +1,6 @@
 package com.example.weatherapp
 
 import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.graphics.Color
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -12,12 +11,17 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import android.view.animation.PathInterpolator
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.fragment.app.Fragment
-import com.example.weatherapp.R
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class BottomSegmentFragment : Fragment() {
 
     private lateinit var rotationAnimator: ObjectAnimator
+
+    private lateinit var dateTimeTextView: TextView
 
     private lateinit var turningWheelImageView: ImageView
     private lateinit var currentImageView: ImageView
@@ -58,8 +62,9 @@ class BottomSegmentFragment : Fragment() {
 
         turningWheelImageView = view.findViewById(R.id.bottomTurningWheelImageView)
         currentImageView = view.findViewById(R.id.bottomCurrentImageView)
+        dateTimeTextView = view.findViewById(R.id.bottomDateTimeTextView)
 
-        // Setup rotation animation for the turning wheel
+        //turning wheel rotation animation
         rotationAnimator = ObjectAnimator.ofFloat(turningWheelImageView, "rotation", 0f, 360f)
         rotationAnimator.duration = 3000
         rotationAnimator.interpolator = LinearInterpolator()
@@ -79,7 +84,7 @@ class BottomSegmentFragment : Fragment() {
                 colorHandler.postDelayed(this, 15000)
             }
         }
-
+        updateTime()
         return view
     }
 
@@ -105,5 +110,12 @@ class BottomSegmentFragment : Fragment() {
         colorAnimator.interpolator = PathInterpolator(0.5f, 0f, 0.5f, 1f)
         colorAnimator.duration = 3000
         colorAnimator.start()
+    }
+
+    private fun updateTime() {
+        val currentTime = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(Date())
+        dateTimeTextView.text = currentTime
+
+        Handler().postDelayed({ updateTime() }, 1000)
     }
 }
